@@ -27,7 +27,7 @@ function getSendMsgBox(data) {
 	return `<div class="sent_msg">
         <p>${data.msg}</p>
         <span class="time_date"> ${convertTime} / <b>${data.sender}</b> </span>
-        /div>`;
+        </div>`;
 }
 
 // 회식박스 만들기

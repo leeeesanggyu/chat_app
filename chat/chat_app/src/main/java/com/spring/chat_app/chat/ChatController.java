@@ -22,6 +22,7 @@ public class ChatController {
             @PathVariable String sender,
             @PathVariable String receiver
     ){
+        System.out.println("=====getMessage=======");
         return chatRepo.mFindBySender(sender, receiver)
                 .subscribeOn(Schedulers.boundedElastic());
     }
@@ -29,7 +30,16 @@ public class ChatController {
     @CrossOrigin
     @PostMapping("/chat")
     public Mono<Chat> setMsg(@RequestBody Chat chat){   //Mono : 한번만 리턴
+        System.out.println("=====setMsg=======");
         chat.setCreatedAt(LocalDateTime.now());
         return chatRepo.save(chat); // Object를 리턴하면 자동으로 JSON 변환 (MessageConverter)
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/chat/roomNum/{roomNum}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Chat> findByRoomNum(@PathVariable Integer roomNum) {
+        System.out.println("=====findByRoomNum=======");
+        return chatRepo.mFindByRoomNum(roomNum)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 }
